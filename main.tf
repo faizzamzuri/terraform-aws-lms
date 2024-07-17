@@ -10,15 +10,15 @@ terraform {
 }
 
 provider "aws" {
-  region  = "ap-southeast-1"
+  region = "ap-southeast-1"
 }
 
-resource "aws_instance" "example_server" {
+  resource "aws_instance" "Bitnami_LMS" {
   ami           = "ami-0bbdb939ba1170846"
   instance_type = "t2.micro"
 
   tags = {
-    Name = "BitnamiLMS"
+    Name = "Bitnami_LMS"
   }
 }
 
@@ -38,7 +38,7 @@ resource "aws_security_group" "LMS_SG" {
     protocol    = "tcp"
     cidr_blocks = [data.aws_vpc.main.cidr_block]
   }
-  
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -47,15 +47,12 @@ resource "aws_security_group" "LMS_SG" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-data "aws_vpc" "main" {
-  id = var.vpc_id
-}
-  
-
   tags = {
-    Name    = "LMS"
+    Name    = "LMS_SG"
     Project = "Bitnami_LMS"
   }
+}
 
-  
+data "aws_vpc" "main" {
+  id = var.vpc_id
 }
