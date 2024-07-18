@@ -17,6 +17,8 @@ provider "aws" {
   ami           = "ami-0bbdb939ba1170846"
   instance_type = "t2.micro"
 
+    vpc_security_group_ids = [aws_security_group.LMS_SG.id]
+
   tags = {
     Name = "Bitnami_LMS"
   }
@@ -28,7 +30,7 @@ resource "aws_security_group" "LMS_SG" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [data.aws_vpc.main.cidr_block]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -36,7 +38,7 @@ resource "aws_security_group" "LMS_SG" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [data.aws_vpc.main.cidr_block]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
